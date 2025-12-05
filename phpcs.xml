@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ruleset name="DCS-Self">
+  <description>PHPCS config for dude-coding-standards repository itself</description>
+
+  <!-- Use our own standard -->
+  <rule ref="DCS"/>
+
+  <!-- Only check the sniffs directory -->
+  <file>DCS/Sniffs</file>
+
+  <!-- PHPCS sniffs must follow PHPCS conventions, not WordPress -->
+  <rule ref="WordPress.Files.FileName">
+    <exclude-pattern>DCS/Sniffs/*</exclude-pattern>
+  </rule>
+  <rule ref="WordPress.NamingConventions.ValidVariableName">
+    <exclude-pattern>DCS/Sniffs/*</exclude-pattern>
+  </rule>
+  <rule ref="Universal.UseStatements.DisallowUseClass">
+    <exclude-pattern>DCS/Sniffs/*</exclude-pattern>
+  </rule>
+  <rule ref="Universal.Classes.RequireFinalClass">
+    <exclude-pattern>DCS/Sniffs/*</exclude-pattern>
+  </rule>
+</ruleset>

@@ -1,0 +1,32 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  phpcs:
+    name: PHP CodeSniffer
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+
+    - name: Install dependencies
+      uses: php-actions/composer@v6
+      env:
+        COMPOSER: "composer.json"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        php_version: "8.3"
+        args: "--ignore-platform-reqs --optimize-autoloader"
+
+    - name: Run PHP_CodeSniffer
+      run: vendor/bin/phpcs
+
+    - name: Test PHP for syntax errors
+      run: find -L . -name '*.php' -not -path "./vendor/*" -print0 | xargs -0 -n 1 -P 4 php -l
