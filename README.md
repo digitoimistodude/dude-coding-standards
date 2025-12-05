@@ -3,10 +3,10 @@
 > [!NOTE]
 > **Please note:** The Dude Coding Standard is a work in progress. We're in the process of replacing WordPress-Core standard in [dudestack](https://github.com/digitoimistodude/dudestack) with our own DSC standard, the one you are currently looking at (internal reference: [DEV-624](https://linear.app/dude/issue/DEV-624)). This PHPCS standard is used by Dude staff and may not provide additional value for external developers.
 
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/digitoimistodude/dude-coding-standards/.github%2Fworkflows%2Fbuild.yml?style=for-the-badge)](https://github.com/digitoimistodude/dude-coding-standards/actions)
 [![version](https://img.shields.io/badge/version-1.0.0-blue.svg?style=for-the-badge)](#)
 [![WordPress](https://img.shields.io/badge/WordPress-%23117AC9.svg?style=for-the-badge&logo=WordPress&logoColor=white)](#)
 [![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)](#)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/digitoimistodude/dude-coding-standards/.github%2Fworkflows%2Fbuild.yml?style=for-the-badge)](https://github.com/digitoimistodude/dude-coding-standards/actions)
 
 PHP_CodeSniffer and Stylelint rules for WordPress theme and plugin development at [Digitoimisto Dude Oy](https://www.dude.fi).
 
