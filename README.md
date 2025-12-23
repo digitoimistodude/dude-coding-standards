@@ -3,7 +3,7 @@
 > [!NOTE]
 > **Please note:** The Dude Coding Standard is a work in progress. We're in the process of replacing WordPress-Core standard in [dudestack](https://github.com/digitoimistodude/dudestack) with our own DSC standard, the one you are currently looking at (internal reference: [DEV-624](https://linear.app/dude/issue/DEV-624)). This PHPCS standard is used by Dude staff and may not provide additional value for external developers.
 
-[![version](https://img.shields.io/badge/version-1.0.0-blue.svg?style=for-the-badge)](#)
+[![Packagist Version](https://img.shields.io/packagist/v/digitoimistodude/dude-coding-standards?style=for-the-badge)](https://packagist.org/packages/digitoimistodude/dude-coding-standards)
 [![WordPress](https://img.shields.io/badge/WordPress-%23117AC9.svg?style=for-the-badge&logo=WordPress&logoColor=white)](#)
 [![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)](#)
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/digitoimistodude/dude-coding-standards/.github%2Fworkflows%2Fbuild.yml?style=for-the-badge)](https://github.com/digitoimistodude/dude-coding-standards/actions)
@@ -222,6 +222,48 @@ Create `.stylelintrc` in your project root:
 ```
 
 See [stylelint.config.js](stylelint.config.js) for all rules.
+
+---
+
+## Contributing (Dude staff)
+
+### Adding excludes
+
+When you encounter a rule that should be excluded globally, add it to `DCS/ruleset.xml`:
+
+```xml
+<rule ref="Squiz">
+  <!-- Add your exclude here -->
+  <exclude name="Squiz.PHP.SomeRule" />
+</rule>
+```
+
+Find the rule name from the phpcs error output (shown when using `-s` flag).
+
+### Release cycle
+
+1. Make changes to `DCS/ruleset.xml`
+2. Update `CHANGELOG.md` with new version and changes
+3. Commit and push:
+   ```bash
+   cd ~/Projects/dude-coding-standards
+   git add -A && git commit -m "Your change description, Ref: DEV-624"
+   git push
+   ```
+4. Tag a new release:
+   ```bash
+   git tag 1.0.x
+   git push --tags
+   ```
+
+The GitHub Actions workflow will automatically create a release when a new tag is pushed.
+
+Projects using the package can update with:
+```bash
+composer update digitoimistodude/dude-coding-standards
+```
+
+**Note:** Projects using path repository (symlink) get changes instantly without updating.
 
 ---
 
