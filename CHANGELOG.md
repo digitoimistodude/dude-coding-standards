@@ -1,6 +1,8 @@
 ### 1.0.1: 2025-12-23
 
 * Exclude `Squiz.PHP.EmbeddedPhp.ContentBeforeEnd` (allow closing PHP tag on same line)
+* Exclude `Universal.PHP.RequireExitDieParentheses` (exit/die without parentheses is fine)
+* Exclude `Zend.Files.ClosingTag.NotAllowed` (closing PHP tag is allowed)
 
 ### 1.0.0: 2025-12-05
 

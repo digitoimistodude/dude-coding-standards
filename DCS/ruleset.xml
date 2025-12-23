@@ -70,6 +70,7 @@
     <exclude name="Universal.FunctionDeclarations.NoLongClosures" />
     <exclude name="Universal.WhiteSpace" />
     <exclude name="Universal.PHP.DisallowExitDieParentheses" />
+    <exclude name="Universal.PHP.RequireExitDieParentheses" />
     <exclude name="Universal.ControlStructures" />
     <exclude name="Universal.Operators" />
   </rule>
@@ -114,6 +115,7 @@
 
     <!-- Exclude deprecated sniffs -->
     <exclude name="Zend.Debug"/>
+    <exclude name="Zend.Files.ClosingTag.NotAllowed"/>
   </rule>
 
   <!-- WordPress standards -->
