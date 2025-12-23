@@ -1,3 +1,7 @@
+### 1.0.1: 2025-12-23
+
+* Exclude `Squiz.PHP.EmbeddedPhp.ContentBeforeEnd` (allow closing PHP tag on same line)
+
 ### 1.0.0: 2025-12-05
 
 * Initial release based on WordPress Coding Standards 3.3.0

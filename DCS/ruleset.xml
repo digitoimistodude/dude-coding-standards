@@ -96,6 +96,7 @@
     <exclude name="Squiz.PHP.DisallowInlineIf" />
     <exclude name="Squiz.PHP.DisallowMultipleAssignments" />
     <exclude name="Squiz.PHP.EmbeddedPhp.ContentAfterOpen" />
+    <exclude name="Squiz.PHP.EmbeddedPhp.ContentBeforeEnd" />
     <exclude name="Squiz.PHP.GlobalKeyword" />
     <exclude name="Squiz.PHP.Heredoc" />
     <exclude name="Squiz.PHP.CommentedOutCode" />
