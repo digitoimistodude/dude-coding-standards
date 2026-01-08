@@ -130,7 +130,7 @@ module.exports = {
       true,
       {
         importFrom: [
-          'css/dev/global.css'
+          'assets/dist/css/global.css'
         ]
       }
     ],
