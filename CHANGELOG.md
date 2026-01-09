@@ -1,3 +1,9 @@
+### 1.0.2: 2026-01-09
+
+* Auto-detect global.css path for csstools plugin (supports both standalone themes and dudestack projects), Ref: DEV-567
+* Disable `number-max-precision` rule
+* Remove unknown rule `declaration-property-value-no-unknown`
+
 ### 1.0.1: 2025-12-23
 
 * Exclude `Squiz.PHP.EmbeddedPhp.ContentBeforeEnd` (allow closing PHP tag on same line)

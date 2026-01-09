@@ -4,6 +4,46 @@
  *
  * Reference: https://linear.app/dude/issue/DEV-638
  */
+const fs = require('fs');
+const path = require('path');
+
+// Find the global.css file for custom properties validation
+// Supports both standalone themes and dudestack projects
+function findGlobalCss() {
+  const possiblePaths = [
+    // Standalone theme (running from theme directory)
+    'assets/dist/css/global.css',
+    // Dudestack: check content/themes/*/assets/dist/css/global.css
+    ...findDudestackThemeCss()
+  ];
+
+  for (const cssPath of possiblePaths) {
+    if (fs.existsSync(cssPath)) {
+      return cssPath;
+    }
+  }
+
+  return null;
+}
+
+function findDudestackThemeCss() {
+  const themesDir = 'content/themes';
+  if (!fs.existsSync(themesDir)) {
+    return [];
+  }
+
+  try {
+    const themes = fs.readdirSync(themesDir, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => path.join(themesDir, dirent.name, 'assets/dist/css/global.css'));
+    return themes;
+  } catch {
+    return [];
+  }
+}
+
+const globalCssPath = findGlobalCss();
+
 module.exports = {
   defaultSeverity: 'warning',
   plugins: [
@@ -64,7 +104,6 @@ module.exports = {
         ]
       }
     ],
-    'declaration-property-value-no-unknown': null,
     'scss/at-mixin-argumentless-call-parentheses': null,
     'scss/double-slash-comment-empty-line-before': null,
     'scss/at-rule-conditional-no-parentheses': null,
@@ -97,7 +136,7 @@ module.exports = {
     'no-duplicate-selectors': true,
     'length-zero-no-unit': true,
     'font-weight-notation': 'numeric',
-    'number-max-precision': 4,
+    'number-max-precision': null,
     'selector-class-pattern': null,
     'selector-max-class': 5,
     'selector-max-combinators': 4,
@@ -126,14 +165,14 @@ module.exports = {
         ]
       }
     ],
-    'csstools/value-no-unknown-custom-properties': [
-      true,
-      {
-        importFrom: [
-          'assets/dist/css/global.css'
+    'csstools/value-no-unknown-custom-properties': globalCssPath
+      ? [
+          true,
+          {
+            importFrom: [globalCssPath]
+          }
         ]
-      }
-    ],
+      : null,
     'rule-empty-line-before': [
       'always-multi-line',
       {
