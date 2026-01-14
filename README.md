@@ -210,6 +210,17 @@ Create `.stylelintrc` in your project root:
 }
 ```
 
+If you ever need to add project based exclusions, use rules in your project:
+
+```json
+{
+  "extends": "@digitoimistodude/stylelint-config",
+  "rules": {
+    "rem-over-px/rem-over-px": null
+  }
+}
+```
+
 ### Overriding rules
 
 ```json
