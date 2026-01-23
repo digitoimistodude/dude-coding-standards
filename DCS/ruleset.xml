@@ -94,6 +94,9 @@
     </properties>
   </rule>
 
+  <!-- Disallow inner functions (functions inside functions) -->
+  <rule ref="Squiz.PHP.InnerFunctions"/>
+
   <!-- Disable Squiz discouraged functions (we manage this separately) -->
   <rule ref="Squiz.PHP.DiscouragedFunctions">
     <severity>0</severity>
