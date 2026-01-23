@@ -80,12 +80,18 @@
     <severity>0</severity>
   </rule>
 
-  <!-- Disable Generic complexity metrics -->
+  <!-- Enable code complexity checks -->
   <rule ref="Generic.Metrics.CyclomaticComplexity">
-    <severity>0</severity>
+    <properties>
+      <property name="complexity" value="10"/>
+      <property name="absoluteComplexity" value="12"/>
+    </properties>
   </rule>
   <rule ref="Generic.Metrics.NestingLevel">
-    <severity>0</severity>
+    <properties>
+      <property name="nestingLevel" value="3"/>
+      <property name="absoluteNestingLevel" value="4"/>
+    </properties>
   </rule>
 
   <!-- Disable Squiz discouraged functions (we manage this separately) -->
