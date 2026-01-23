@@ -1,3 +1,9 @@
+### 1.0.4: 2026-01-23
+
+* Enable `Generic.Metrics.CyclomaticComplexity` (warn at 10, error at 12)
+* Enable `Generic.Metrics.NestingLevel` (warn at 3, error at 4)
+* Enable `Squiz.PHP.InnerFunctions` (disallow functions inside functions)
+
 ### 1.0.3: 2026-01-23
 
 * Remove full Generic, Squiz, PEAR, and Universal ruleset inclusions to prevent hundreds of unwanted rules
