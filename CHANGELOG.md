@@ -1,3 +1,19 @@
+### 1.0.3: 2026-01-23
+
+* Remove full Generic, Squiz, PEAR, and Universal ruleset inclusions to prevent hundreds of unwanted rules
+* Disable WordPress-inherited rules that conflict with Dude style:
+  * `PEAR.WhiteSpace.ScopeIndent` (conflicts with mixed indentation)
+  * `Generic.WhiteSpace.ArbitraryParenthesesSpacing` (Dude uses spaces inside parentheses)
+  * `Universal.Operators.DisallowShortTernary` (allow `?:` operator)
+  * `Universal.Operators.DisallowStandalonePostIncrementDecrement` (allow `$i++`)
+  * `Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction` (allow `function()` without space)
+* Disable all commenting rules (`Squiz.Commenting`, `Generic.Commenting`)
+* Disable alignment rules (`Generic.Formatting.MultipleStatementAlignment`, `WordPress.Arrays.MultipleStatementAlignment`)
+* Disable `Universal.Classes.RequireFinalClass` (already in 1.0.0 but wasn't working)
+* Disable `Generic.Metrics.CyclomaticComplexity` and `Generic.Metrics.NestingLevel`
+* Disable `Squiz.PHP.DiscouragedFunctions`
+* Configure PEAR indent rule for 2 spaces with flexibility
+
 ### 1.0.2: 2026-01-09
 
 * Auto-detect global.css path for csstools plugin (supports both standalone themes and dudestack projects), Ref: DEV-567

@@ -170,6 +170,9 @@ Run phpcs:
 
 # By using the global version
 phpcs --standard=phpcs.xml path/to/your/code
+
+# With ignore patterns
+./vendor/bin/phpcs --ignore=node_modules,vendor path/to/your/code
 ```
 
 You can also run phpcs directly from dude-coding-standards against your project:
@@ -177,11 +180,11 @@ You can also run phpcs directly from dude-coding-standards against your project:
 ```bash
 cd /path/to/dude-coding-standards
 
-# From the dev project
-./vendor/bin/phpcs --standard=DCS /path/to/your/project/
+# Test against a specific theme/plugin
+./vendor/bin/phpcs --ignore=node_modules,vendor /path/to/project/content/themes/your-theme/
 
-# By using the global version
-phpcs --standard=DCS /path/to/your/project/
+# Or test your entire project
+./vendor/bin/phpcs --standard=DCS /path/to/your/project/
 ```
 
 Check the standard itself for development:
@@ -243,11 +246,13 @@ See [stylelint.config.js](stylelint.config.js) for all rules.
 When you encounter a rule that should be excluded globally, add it to `DCS/ruleset.xml`:
 
 ```xml
-<rule ref="Squiz">
-  <!-- Add your exclude here -->
-  <exclude name="Squiz.PHP.SomeRule" />
+<!-- Disable specific rules inherited from WordPress standards -->
+<rule ref="Squiz.PHP.SomeRule">
+  <severity>0</severity>
 </rule>
 ```
+
+**Important:** Don't include full rulesets like `<rule ref="Generic">` or `<rule ref="Squiz">`. WordPress already includes specific rules from these standards. Only disable individual rules that conflict with Dude's style.
 
 Find the rule name from the phpcs error output (shown when using `-s` flag).
 

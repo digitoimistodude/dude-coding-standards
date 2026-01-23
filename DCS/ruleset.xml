@@ -29,97 +29,114 @@
   <config name="ignore_warnings_on_exit" value="1"/>
   <config name="ignore_errors_on_exit" value="0"/>
 
-  <!-- Generic PHP rules -->
-  <rule ref="PSR1">
-    <exclude name="PSR1.Files.SideEffects" />
-    <exclude name="PSR1.Methods" />
+  <!--
+    IMPORTANT: We do NOT include Generic, Squiz, PEAR, PSR*, or Universal rulesets!
+
+    WordPress standards already include the necessary rules from these.
+    Including them again adds hundreds of unwanted rules.
+
+    Instead, we disable specific rules inherited from WordPress that don't match Dude style.
+  -->
+
+  <!-- Disable WordPress tab requirement - we use 2 spaces -->
+  <rule ref="Generic.WhiteSpace.DisallowSpaceIndent">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.WhiteSpace.ScopeIndent">
+    <severity>0</severity>
   </rule>
 
-  <rule ref="PSR2">
-    <exclude name="PSR2.ControlStructures" />
-    <exclude name="PSR2.Methods.FunctionCallSignature" />
+  <!-- Allow short array syntax [] instead of array() -->
+  <rule ref="Universal.Arrays.DisallowShortArraySyntax">
+    <severity>0</severity>
   </rule>
 
-  <rule ref="PSR12">
-    <exclude name="PSR12.ControlStructures" />
-    <exclude name="PSR12.Classes" />
+  <!-- Disable precision alignment warnings (we align code intentionally) -->
+  <rule ref="Universal.WhiteSpace.PrecisionAlignment">
+    <severity>0</severity>
   </rule>
 
-  <rule ref="Generic">
-    <exclude name="Generic.PHP.UpperCaseConstant" />
-    <exclude name="Generic.Arrays.ArrayIndent" />
-    <exclude name="Generic.Arrays.DisallowShortArraySyntax" />
-    <exclude name="Generic.Arrays.DisallowLongArraySyntax" />
-    <exclude name="Generic.WhiteSpace" />
-    <exclude name="Generic.PHP.ClosingPHPTag" />
-    <exclude name="Generic.PHP.RequireStrictTypes" />
-    <exclude name="Generic.NamingConventions" />
-    <exclude name="Generic.Functions" />
-    <exclude name="Generic.Files" />
-    <exclude name="Generic.Formatting" />
-    <exclude name="Generic.Commenting.DocComment" />
-    <exclude name="Generic.ControlStructures.DisallowYodaConditions" />
-    <exclude name="Generic.Debug" />
+  <!-- Disable all commenting rules -->
+  <rule ref="Squiz.Commenting">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.Commenting">
+    <severity>0</severity>
   </rule>
 
-  <rule ref="Universal">
-    <exclude name="Universal.Arrays.DisallowShortArraySyntax.Found" />
-    <exclude name="Universal.Classes.RequireFinalClass" />
-    <exclude name="Universal.Namespaces.EnforceCurlyBraceSyntax" />
-    <exclude name="Universal.NamingConventions.NoReservedKeywordParameterNames" />
-    <exclude name="Universal.FunctionDeclarations.NoLongClosures" />
-    <exclude name="Universal.WhiteSpace" />
-    <exclude name="Universal.PHP.DisallowExitDieParentheses" />
-    <exclude name="Universal.PHP.RequireExitDieParentheses" />
-    <exclude name="Universal.ControlStructures" />
-    <exclude name="Universal.Operators" />
+  <!-- Disable alignment rules (we don't enforce assignment alignment) -->
+  <rule ref="Generic.Formatting.MultipleStatementAlignment">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.Arrays.MultipleStatementAlignment">
+    <severity>0</severity>
   </rule>
 
-  <rule ref="PEAR">
-    <exclude name="PEAR.Functions.FunctionCallSignature" />
-    <exclude name="PEAR.Commenting" />
-    <exclude name="PEAR.Classes" />
-    <exclude name="PEAR.NamingConventions" />
-    <exclude name="PEAR.Functions" />
-    <exclude name="PEAR.ControlStructures" />
-    <exclude name="PEAR.WhiteSpace" />
+  <!-- Disable Universal rules we don't want -->
+  <rule ref="Universal.Classes.RequireFinalClass">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames">
+    <severity>0</severity>
   </rule>
 
-  <rule ref="Squiz">
-    <exclude name="Squiz.Commenting" />
-    <exclude name="Squiz.Functions" />
-    <exclude name="Squiz.Operators" />
-    <exclude name="Squiz.NamingConventions" />
-    <exclude name="Squiz.Arrays" />
-    <exclude name="Squiz.ControlStructures" />
-    <exclude name="Squiz.PHP.DisallowBooleanStatement" />
-    <exclude name="Squiz.PHP.DisallowComparisonAssignment" />
-    <exclude name="Squiz.PHP.DisallowInlineIf" />
-    <exclude name="Squiz.PHP.DisallowMultipleAssignments" />
-    <exclude name="Squiz.PHP.EmbeddedPhp.ContentAfterOpen" />
-    <exclude name="Squiz.PHP.EmbeddedPhp.ContentBeforeEnd" />
-    <exclude name="Squiz.PHP.GlobalKeyword" />
-    <exclude name="Squiz.PHP.Heredoc" />
-    <exclude name="Squiz.PHP.CommentedOutCode" />
-    <exclude name="Squiz.WhiteSpace" />
-    <exclude name="Squiz.CSS" />
-    <exclude name="Squiz.Debug" />
-    <exclude name="Squiz.Formatting.OperatorBracket" />
-    <exclude name="Squiz.Classes.DuplicateProperty" />
-    <exclude name="Squiz.Classes.ClassDeclaration" />
-    <exclude name="Squiz.Classes.ClassFileName" />
-    <exclude name="Squiz.Classes.ValidClassName" />
-    <exclude name="Squiz.Objects" />
-    <exclude name="Squiz.Files.FileExtension" />
-    <exclude name="Squiz.Strings.DoubleQuoteUsage" />
-
-    <!-- Exclude deprecated sniffs -->
-    <exclude name="Zend.Debug"/>
-    <exclude name="Zend.Files.ClosingTag.NotAllowed"/>
+  <!-- Disable Generic complexity metrics -->
+  <rule ref="Generic.Metrics.CyclomaticComplexity">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.Metrics.NestingLevel">
+    <severity>0</severity>
   </rule>
 
-  <!-- WordPress standards -->
+  <!-- Disable Squiz discouraged functions (we manage this separately) -->
+  <rule ref="Squiz.PHP.DiscouragedFunctions">
+    <severity>0</severity>
+  </rule>
+
+  <!-- Disable PEAR rules that conflict with Dude style -->
+  <rule ref="PEAR.Functions.FunctionCallSignature">
+    <severity>0</severity>
+  </rule>
+  <rule ref="PEAR.WhiteSpace.ScopeIndent">
+    <severity>0</severity>
+  </rule>
+
+  <!-- Disable WordPress/Generic parentheses spacing (we have our own style) -->
+  <rule ref="Generic.WhiteSpace.ArbitraryParenthesesSpacing">
+    <severity>0</severity>
+  </rule>
+
+  <!-- Allow short ternary operator (?:) -->
+  <rule ref="Universal.Operators.DisallowShortTernary">
+    <severity>0</severity>
+  </rule>
+
+  <!-- Allow post-increment ($i++ instead of ++$i) -->
+  <rule ref="Universal.Operators.DisallowStandalonePostIncrementDecrement">
+    <severity>0</severity>
+  </rule>
+
+  <!-- Don't require space after function keyword -->
+  <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction">
+    <severity>0</severity>
+  </rule>
+
+  <!-- Allow PHP opening/closing tags on same line as content in templates -->
+  <rule ref="Squiz.PHP.EmbeddedPhp.ContentAfterOpen">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.PHP.EmbeddedPhp.ContentBeforeEnd">
+    <severity>0</severity>
+  </rule>
+
+  <!-- Disable WordPress array indentation (conflicts with our style) -->
+  <rule ref="WordPress.Arrays.ArrayIndentation">
+    <severity>0</severity>
+  </rule>
+
+  <!-- Include WordPress standards -->
   <rule ref="WordPress">
+    <!-- Exclude rules under WordPress standards -->
     <exclude name="WordPress.Arrays.MultipleStatementAlignment" />
     <exclude name="WordPress.Arrays.ArrayIndentation" />
     <exclude name="WordPress.Arrays.ArrayDeclarationSpacing" />
@@ -151,11 +168,13 @@
   <!-- Encoding and indentation -->
   <config name="encoding" value="utf-8" />
 
-  <!-- We use 2 spaces -->
+  <!-- Dude uses 2 spaces for indentation (not tabs like WordPress) -->
   <config name="tab_width" value="2" />
   <rule ref="PEAR.WhiteSpace.ScopeIndent">
     <properties>
       <property name="indent" value="2" />
+      <property name="exact" value="false" />
+      <property name="tabIndent" value="false" />
     </properties>
   </rule>
 </ruleset>
