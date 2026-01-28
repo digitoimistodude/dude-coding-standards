@@ -1,3 +1,10 @@
+### 1.0.5: 2026-01-28
+
+* Enable `Generic.WhiteSpace.DisallowTabIndent` to detect and auto-fix tabs
+* Configure `PEAR.WhiteSpace.ScopeIndent` with `exact=true` to catch wrong indentation
+* Add `ignoreIndentationTokens` for comments (T_COMMENT, T_DOC_COMMENT) to avoid false positives on WordPress comment style
+* Indentation checking now properly works: detects tabs and wrong space count, phpcbf auto-fixes both
+
 ### 1.0.4: 2026-01-23
 
 * Enable `Generic.Metrics.CyclomaticComplexity` (warn at 10, error at 12)

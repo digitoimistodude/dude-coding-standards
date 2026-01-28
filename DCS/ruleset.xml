@@ -38,13 +38,16 @@
     Instead, we disable specific rules inherited from WordPress that don't match Dude style.
   -->
 
-  <!-- Disable WordPress tab requirement - we use 2 spaces -->
+  <!-- Disable WordPress tab requirements - we use spaces -->
   <rule ref="Generic.WhiteSpace.DisallowSpaceIndent">
     <severity>0</severity>
   </rule>
   <rule ref="Generic.WhiteSpace.ScopeIndent">
     <severity>0</severity>
   </rule>
+
+  <!-- Disallow tabs - we use 2 spaces -->
+  <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
 
   <!-- Allow short array syntax [] instead of array() -->
   <rule ref="Universal.Arrays.DisallowShortArraySyntax">
@@ -104,9 +107,6 @@
 
   <!-- Disable PEAR rules that conflict with Dude style -->
   <rule ref="PEAR.Functions.FunctionCallSignature">
-    <severity>0</severity>
-  </rule>
-  <rule ref="PEAR.WhiteSpace.ScopeIndent">
     <severity>0</severity>
   </rule>
 
@@ -177,13 +177,20 @@
   <!-- Encoding and indentation -->
   <config name="encoding" value="utf-8" />
 
-  <!-- Dude uses 2 spaces for indentation (not tabs like WordPress) -->
+  <!-- Dude prefers 2 spaces -->
   <config name="tab_width" value="2" />
   <rule ref="PEAR.WhiteSpace.ScopeIndent">
     <properties>
       <property name="indent" value="2" />
-      <property name="exact" value="false" />
+      <property name="exact" value="true" />
       <property name="tabIndent" value="false" />
+      <property name="ignoreIndentationTokens" type="array">
+        <element value="T_COMMENT"/>
+        <element value="T_DOC_COMMENT"/>
+        <element value="T_HEREDOC"/>
+        <element value="T_NOWDOC"/>
+        <element value="T_INLINE_HTML"/>
+      </property>
     </properties>
   </rule>
 </ruleset>
