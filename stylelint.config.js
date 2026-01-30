@@ -47,7 +47,6 @@ const globalCssPath = findGlobalCss();
 module.exports = {
   defaultSeverity: 'warning',
   plugins: [
-    '@ronilaukkarinen/stylelint-a11y',
     '@ronilaukkarinen/stylelint-value-no-unknown-custom-properties',
     '@ronilaukkarinen/stylelint-declaration-strict-value',
     'stylelint-order',
@@ -109,8 +108,6 @@ module.exports = {
     'scss/at-rule-conditional-no-parentheses': null,
     'scss/dollar-variable-pattern': null,
     'order/properties-alphabetical-order': true,
-    'a11y/no-outline-none': true,
-    'a11y/selector-pseudo-class-focus': true,
     'alpha-value-notation': 'number',
     'declaration-block-no-redundant-longhand-properties': null,
     'custom-property-empty-line-before': 'never',
@@ -127,7 +124,6 @@ module.exports = {
     'font-family-name-quotes': 'always-where-required',
     'at-rule-no-unknown': null,
     'no-invalid-position-at-import-rule': null,
-    'declaration-no-important': true,
     'comment-empty-line-before': null,
     'scss/at-else-empty-line-before': 'never',
     'function-url-quotes': 'always',
@@ -213,36 +209,6 @@ module.exports = {
         ignoreAtRules: [
           'media'
         ]
-      }
-    ],
-    'a11y/font-size-is-readable': [
-      true,
-      {
-        severity: 'warning'
-      }
-    ],
-    'a11y/line-height-is-vertical-rhythmed': [
-      null,
-      {
-        severity: 'warning'
-      }
-    ],
-    'a11y/no-display-none': [
-      true,
-      {
-        severity: 'warning'
-      }
-    ],
-    'a11y/no-obsolete-element': [
-      true,
-      {
-        severity: 'warning'
-      }
-    ],
-    'a11y/no-text-align-justify': [
-      true,
-      {
-        severity: 'warning'
       }
     ],
     'property-disallowed-list': [

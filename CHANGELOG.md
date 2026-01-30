@@ -1,3 +1,8 @@
+### 1.0.6: 2026-01-30
+
+* Remove `@ronilaukkarinen/stylelint-a11y` package and all accessibility rules, Ref: DEV-724
+* Remove `declaration-no-important` rule, Ref: DEV-724
+
 ### 1.0.5: 2026-01-28
 
 * Enable `Generic.WhiteSpace.DisallowTabIndent` to detect and auto-fix tabs
