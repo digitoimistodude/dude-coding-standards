@@ -1,6 +1,6 @@
 {
   "name": "@digitoimistodude/stylelint-config",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Dude's shareable stylelint config for SCSS",
   "main": "stylelint.config.js",
   "repository": {

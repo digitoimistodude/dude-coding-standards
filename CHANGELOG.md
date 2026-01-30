@@ -1,5 +1,6 @@
 ### 1.0.6: 2026-01-30
 
+* Support both `front-end.css` and `global.css` for air-light 10.0.0+, Ref: DEV-720
 * Remove `@ronilaukkarinen/stylelint-a11y` package and all accessibility rules, Ref: DEV-724
 * Remove `declaration-no-important` rule, Ref: DEV-724
 
