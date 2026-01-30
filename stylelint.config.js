@@ -7,13 +7,15 @@
 const fs = require('fs');
 const path = require('path');
 
-// Find the global.css file for custom properties validation
+// Find the main CSS file for custom properties validation
 // Supports both standalone themes and dudestack projects
+// Checks for front-end.css (air-light 10.0.0+) and global.css (legacy)
 function findGlobalCss() {
   const possiblePaths = [
     // Standalone theme (running from theme directory)
+    'assets/dist/css/front-end.css',
     'assets/dist/css/global.css',
-    // Dudestack: check content/themes/*/assets/dist/css/global.css
+    // In dudestack based projects: content/themes/*/assets/dist/css/
     ...findDudestackThemeCss()
   ];
 
@@ -35,7 +37,10 @@ function findDudestackThemeCss() {
   try {
     const themes = fs.readdirSync(themesDir, { withFileTypes: true })
       .filter(dirent => dirent.isDirectory())
-      .map(dirent => path.join(themesDir, dirent.name, 'assets/dist/css/global.css'));
+      .flatMap(dirent => [
+        path.join(themesDir, dirent.name, 'assets/dist/css/front-end.css'),
+        path.join(themesDir, dirent.name, 'assets/dist/css/global.css')
+      ]);
     return themes;
   } catch {
     return [];
