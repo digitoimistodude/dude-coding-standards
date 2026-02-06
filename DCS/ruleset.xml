@@ -24,6 +24,9 @@
   <exclude-pattern>*/mu-plugins/bedrock-autoloader*</exclude-pattern>
   <exclude-pattern>*/content/db.php</exclude-pattern>
   <exclude-pattern>scripts/Roots/*</exclude-pattern>
+  <exclude-pattern>*/blocks/*.asset.php</exclude-pattern>
+  <exclude-pattern>*/blocks/*.js</exclude-pattern>
+  <exclude-pattern>*/blocks/*.css</exclude-pattern>
 
   <!-- Suppress deprecation warnings -->
   <config name="ignore_warnings_on_exit" value="1"/>

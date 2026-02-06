@@ -1,3 +1,7 @@
+### 1.0.7: 2026-02-06
+
+* Add exclude patterns for wp-scripts generated blocks files, Ref: DEV-748
+
 ### 1.0.6: 2026-01-30
 
 * Support both `front-end.css` and `global.css` for air-light 10.0.0+, Ref: DEV-720
