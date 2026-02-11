@@ -49,6 +49,125 @@ function findDudestackThemeCss() {
 
 const globalCssPath = findGlobalCss();
 
+// Find theme.json and extract WordPress custom properties
+// WordPress generates --wp--preset--*--{slug} and --wp--custom--* at runtime
+// from theme.json, so they never appear in compiled CSS files
+// Reference: https://linear.app/dude/issue/DEV-758
+function findThemeJson() {
+  const possiblePaths = [
+    'theme.json',
+    ...findDudestackThemeJson()
+  ];
+
+  for (const jsonPath of possiblePaths) {
+    if (fs.existsSync(jsonPath)) {
+      return jsonPath;
+    }
+  }
+
+  return null;
+}
+
+function findDudestackThemeJson() {
+  const themesDir = 'content/themes';
+  if (!fs.existsSync(themesDir)) {
+    return [];
+  }
+
+  try {
+    return fs.readdirSync(themesDir, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => path.join(themesDir, dirent.name, 'theme.json'));
+  } catch {
+    return [];
+  }
+}
+
+function flattenCustomSettings(obj, prefix, result) {
+  for (const [key, value] of Object.entries(obj)) {
+    const kebabKey = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+    const varName = `${prefix}--${kebabKey}`;
+
+    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+      flattenCustomSettings(value, varName, result);
+    } else {
+      result[varName] = String(value);
+    }
+  }
+}
+
+function getThemeJsonCustomProperties() {
+  const themeJsonPath = findThemeJson();
+  if (!themeJsonPath) {
+    return null;
+  }
+
+  try {
+    const themeJson = JSON.parse(fs.readFileSync(themeJsonPath, 'utf8'));
+    const settings = themeJson.settings || {};
+    const customProperties = {};
+
+    // --wp--preset--color--{slug}
+    const palette = (settings.color && settings.color.palette) || [];
+    for (const item of palette) {
+      customProperties[`--wp--preset--color--${item.slug}`] = item.color || '';
+    }
+
+    // --wp--preset--gradient--{slug}
+    const gradients = (settings.color && settings.color.gradients) || [];
+    for (const item of gradients) {
+      customProperties[`--wp--preset--gradient--${item.slug}`] = item.gradient || '';
+    }
+
+    // --wp--preset--font-family--{slug}
+    const fontFamilies = (settings.typography && settings.typography.fontFamilies) || [];
+    for (const item of fontFamilies) {
+      customProperties[`--wp--preset--font-family--${item.slug}`] = item.fontFamily || '';
+    }
+
+    // --wp--preset--font-size--{slug}
+    const fontSizes = (settings.typography && settings.typography.fontSizes) || [];
+    for (const item of fontSizes) {
+      customProperties[`--wp--preset--font-size--${item.slug}`] = item.size || '';
+    }
+
+    // --wp--preset--spacing--{slug}
+    const spacingSizes = (settings.spacing && settings.spacing.spacingSizes) || [];
+    for (const item of spacingSizes) {
+      customProperties[`--wp--preset--spacing--${item.slug}`] = item.size || '';
+    }
+
+    // --wp--preset--shadow--{slug}
+    const shadows = (settings.shadow && settings.shadow.presets) || [];
+    for (const item of shadows) {
+      customProperties[`--wp--preset--shadow--${item.slug}`] = item.shadow || '';
+    }
+
+    // --wp--custom--{key} (nested objects with -- separator)
+    if (settings.custom) {
+      flattenCustomSettings(settings.custom, '--wp--custom', customProperties);
+    }
+
+    // --wp--style--global--content-size and --wp--style--global--wide-size
+    if (settings.layout) {
+      if (settings.layout.contentSize) {
+        customProperties['--wp--style--global--content-size'] = settings.layout.contentSize;
+      }
+      if (settings.layout.wideSize) {
+        customProperties['--wp--style--global--wide-size'] = settings.layout.wideSize;
+      }
+    }
+
+    return Object.keys(customProperties).length > 0
+      ? { customProperties }
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+const themeJsonProperties = getThemeJsonCustomProperties();
+
 module.exports = {
   defaultSeverity: 'warning',
   plugins: [
@@ -166,11 +285,11 @@ module.exports = {
         ]
       }
     ],
-    'csstools/value-no-unknown-custom-properties': globalCssPath
+    'csstools/value-no-unknown-custom-properties': globalCssPath || themeJsonProperties
       ? [
           true,
           {
-            importFrom: [globalCssPath]
+            importFrom: [globalCssPath, themeJsonProperties].filter(Boolean)
           }
         ]
       : null,

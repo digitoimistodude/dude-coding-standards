@@ -1,3 +1,7 @@
+### 1.0.8: 2026-02-11
+
+* Parse theme.json to recognize WordPress custom properties in stylelint, Ref: DEV-758
+
 ### 1.0.7: 2026-02-06
 
 * Add exclude patterns for wp-scripts generated blocks files, Ref: DEV-748
