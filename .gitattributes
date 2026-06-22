@@ -1,0 +1,3 @@
+# Documentation is not part of the distributed package
+docs/ export-ignore
+.github/ export-ignore
