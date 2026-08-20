@@ -28,5 +28,8 @@ jobs:
     - name: Run PHP_CodeSniffer
       run: vendor/bin/phpcs
 
+    - name: Rules must not contradict each other (DEV-1254)
+      run: bash tests/convergence.sh
+
     - name: Test PHP for syntax errors
       run: find -L . -name '*.php' -not -path "./vendor/*" -print0 | xargs -0 -n 1 -P 4 php -l

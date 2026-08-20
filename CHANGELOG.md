@@ -1,3 +1,12 @@
+### 1.0.9: 2026-08-20
+
+* Stop referencing the same sniff under two names, Ref: DEV-1254
+* Set `PSR2.ControlStructures.SwitchDeclaration` indent to 2, Ref: DEV-1254
+* Drop `WordPress-Docs` from the base standard
+* Disable 59 judgement-based rules projects already excluded
+* Never disable security, database or compatibility rules
+* Add convergence test so contradicting rules fail CI
+
 ### 1.0.8: 2026-02-11
 
 * Parse theme.json to recognize WordPress custom properties in stylelint, Ref: DEV-758

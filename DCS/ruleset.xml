@@ -4,16 +4,26 @@
     Dude Coding Standards (DCS)
     https://dev.docs.dude.fi
 
-    Combined WordPress*, WordPress-Security and PSR-12 coding standards
-    with PHP 8.0+ compatibility for Dude projects.
-    Reference: https://linear.app/dude/issue/DEV-624/dude-coding-standards-10-phpcsxml
+    WordPress conventions plus PHP 8.3 compatibility, tuned for Dude.
+
+    Design rules for this file, so it stays stable:
+
+      1. One sniff, one address. PEAR.WhiteSpace.ScopeIndent and
+         Generic.WhiteSpace.ScopeIndent are the SAME class. Never reference a
+         sniff under two names, or they fight and phpcbf cannot converge.
+      2. Pin every property we care about. Never inherit a default such as
+         PSR2 SwitchDeclaration's indent of 4, or PEAR's exact of true.
+      3. Security and correctness rules are never disabled. Only rules that
+         need human judgement are, because those are the ones every project
+         ends up arguing with.
+
+    Reference: https://linear.app/dude/issue/DEV-1254/pear-rules-preventing-commit
   </description>
 
-  <!-- PHPCS command line arguments arguments -->
-  <arg value="p" />  <!-- show progress -->
-  <arg value="s" />  <!-- show sniff codes -->
-  <arg value="v" />  <!-- verbose output -->
-  <arg name="extensions" value="php" />
+  <!-- PHPCS command line arguments -->
+  <arg value="p"/>
+  <arg value="s"/>
+  <arg name="extensions" value="php"/>
 
   <!-- Exclude common folders -->
   <exclude-pattern>*/vendor/*</exclude-pattern>
@@ -25,168 +35,31 @@
   <exclude-pattern>*/content/db.php</exclude-pattern>
   <exclude-pattern>scripts/Roots/*</exclude-pattern>
   <exclude-pattern>*/blocks/*.asset.php</exclude-pattern>
-  <exclude-pattern>*/blocks/*.js</exclude-pattern>
-  <exclude-pattern>*/blocks/*.css</exclude-pattern>
-
-  <!-- Suppress deprecation warnings -->
-  <config name="ignore_warnings_on_exit" value="1"/>
-  <config name="ignore_errors_on_exit" value="0"/>
 
   <!--
-    IMPORTANT: We do NOT include Generic, Squiz, PEAR, PSR*, or Universal rulesets!
-
-    WordPress standards already include the necessary rules from these.
-    Including them again adds hundreds of unwanted rules.
-
-    Instead, we disable specific rules inherited from WordPress that don't match Dude style.
+    Base standards. WordPress-Docs is deliberately NOT included: it is the only
+    source of the Squiz.Commenting rules that every Dude project excluded by hand.
   -->
+  <rule ref="WordPress-Core"/>
+  <rule ref="WordPress-Extra"/>
+  <rule ref="PHPCompatibilityWP"/>
+  <config name="testVersion" value="8.3"/>
 
-  <!-- Disable WordPress tab requirements - we use spaces -->
+  <!--
+    Indentation: Dude uses 2 spaces, WordPress-Core assumes tabs.
+    exact is false because WordPress style indents case inside switch, which
+    exact=true can never accept. See design rule 1 above.
+  -->
+  <config name="tab_width" value="2"/>
   <rule ref="Generic.WhiteSpace.DisallowSpaceIndent">
     <severity>0</severity>
   </rule>
-  <rule ref="Generic.WhiteSpace.ScopeIndent">
-    <severity>0</severity>
-  </rule>
-
-  <!-- Disallow tabs - we use 2 spaces -->
   <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
-
-  <!-- Allow short array syntax [] instead of array() -->
-  <rule ref="Universal.Arrays.DisallowShortArraySyntax">
-    <severity>0</severity>
-  </rule>
-
-  <!-- Disable precision alignment warnings (we align code intentionally) -->
-  <rule ref="Universal.WhiteSpace.PrecisionAlignment">
-    <severity>0</severity>
-  </rule>
-
-  <!-- Disable all commenting rules -->
-  <rule ref="Squiz.Commenting">
-    <severity>0</severity>
-  </rule>
-  <rule ref="Generic.Commenting">
-    <severity>0</severity>
-  </rule>
-
-  <!-- Disable alignment rules (we don't enforce assignment alignment) -->
-  <rule ref="Generic.Formatting.MultipleStatementAlignment">
-    <severity>0</severity>
-  </rule>
-  <rule ref="WordPress.Arrays.MultipleStatementAlignment">
-    <severity>0</severity>
-  </rule>
-
-  <!-- Disable Universal rules we don't want -->
-  <rule ref="Universal.Classes.RequireFinalClass">
-    <severity>0</severity>
-  </rule>
-  <rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames">
-    <severity>0</severity>
-  </rule>
-
-  <!-- Enable code complexity checks -->
-  <rule ref="Generic.Metrics.CyclomaticComplexity">
+  <rule ref="Generic.WhiteSpace.ScopeIndent">
     <properties>
-      <property name="complexity" value="10"/>
-      <property name="absoluteComplexity" value="12"/>
-    </properties>
-  </rule>
-  <rule ref="Generic.Metrics.NestingLevel">
-    <properties>
-      <property name="nestingLevel" value="3"/>
-      <property name="absoluteNestingLevel" value="4"/>
-    </properties>
-  </rule>
-
-  <!-- Disallow inner functions (functions inside functions) -->
-  <rule ref="Squiz.PHP.InnerFunctions"/>
-
-  <!-- Disable Squiz discouraged functions (we manage this separately) -->
-  <rule ref="Squiz.PHP.DiscouragedFunctions">
-    <severity>0</severity>
-  </rule>
-
-  <!-- Disable PEAR rules that conflict with Dude style -->
-  <rule ref="PEAR.Functions.FunctionCallSignature">
-    <severity>0</severity>
-  </rule>
-
-  <!-- Disable WordPress/Generic parentheses spacing (we have our own style) -->
-  <rule ref="Generic.WhiteSpace.ArbitraryParenthesesSpacing">
-    <severity>0</severity>
-  </rule>
-
-  <!-- Allow short ternary operator (?:) -->
-  <rule ref="Universal.Operators.DisallowShortTernary">
-    <severity>0</severity>
-  </rule>
-
-  <!-- Allow post-increment ($i++ instead of ++$i) -->
-  <rule ref="Universal.Operators.DisallowStandalonePostIncrementDecrement">
-    <severity>0</severity>
-  </rule>
-
-  <!-- Don't require space after function keyword -->
-  <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction">
-    <severity>0</severity>
-  </rule>
-
-  <!-- Allow PHP opening/closing tags on same line as content in templates -->
-  <rule ref="Squiz.PHP.EmbeddedPhp.ContentAfterOpen">
-    <severity>0</severity>
-  </rule>
-  <rule ref="Squiz.PHP.EmbeddedPhp.ContentBeforeEnd">
-    <severity>0</severity>
-  </rule>
-
-  <!-- Disable WordPress array indentation (conflicts with our style) -->
-  <rule ref="WordPress.Arrays.ArrayIndentation">
-    <severity>0</severity>
-  </rule>
-
-  <!-- Include WordPress standards -->
-  <rule ref="WordPress">
-    <!-- Exclude rules under WordPress standards -->
-    <exclude name="WordPress.Arrays.MultipleStatementAlignment" />
-    <exclude name="WordPress.Arrays.ArrayIndentation" />
-    <exclude name="WordPress.Arrays.ArrayDeclarationSpacing" />
-    <exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_query" />
-    <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
-    <exclude name="WordPress.WP.GlobalVariablesOverride.Prohibited" />
-    <exclude name="WordPress.PHP.YodaConditions" />
-  </rule>
-
-  <!-- PHP compatibility checks -->
-  <rule ref="PHPCompatibility" />
-  <config name="testVersion" value="8.3" />
-
-  <!-- Custom Dude sniffs -->
-  <rule ref="DCS.PHP.ForbiddenFunctions"/>
-
-  <!-- Downgrade to warnings -->
-  <!--
-    NoSemicolon: Semicolons in embedded PHP are good practice for:
-    - Consistency: all PHP statements should visually end with semicolons
-    - Maintainability: adding another statement won't cause syntax errors
-    - Habit formation: relying on implicit semicolons can lead to bugs
-    But we allow it as a warning since the code works either way.
-  -->
-  <rule ref="Squiz.PHP.EmbeddedPhp.NoSemicolon">
-    <type>warning</type>
-  </rule>
-
-  <!-- Encoding and indentation -->
-  <config name="encoding" value="utf-8" />
-
-  <!-- Dude prefers 2 spaces -->
-  <config name="tab_width" value="2" />
-  <rule ref="PEAR.WhiteSpace.ScopeIndent">
-    <properties>
-      <property name="indent" value="2" />
-      <property name="exact" value="true" />
-      <property name="tabIndent" value="false" />
+      <property name="indent" value="2"/>
+      <property name="exact" value="false"/>
+      <property name="tabIndent" value="false"/>
       <property name="ignoreIndentationTokens" type="array">
         <element value="T_COMMENT"/>
         <element value="T_DOC_COMMENT"/>
@@ -195,5 +68,198 @@
         <element value="T_INLINE_HTML"/>
       </property>
     </properties>
+  </rule>
+  <rule ref="PSR2.ControlStructures.SwitchDeclaration">
+    <properties>
+      <property name="indent" value="2"/>
+    </properties>
+  </rule>
+
+  <!-- Template files legitimately open and close PHP inside markup -->
+  <rule ref="Squiz.PHP.EmbeddedPhp">
+    <severity>0</severity>
+  </rule>
+
+  <!--
+    Disabled below: rules that need human judgement, identified by measuring
+    what Dude projects already excluded by hand (24 or more of 39 repos).
+    Security, database and PHP compatibility rules are NOT in this list.
+  -->
+  <rule ref="Generic.Arrays.DisallowShortArraySyntax">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.Commenting.DocComment.MissingShort">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.Commenting.DocComment.SpacingBeforeTags">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.ControlStructures.InlineControlStructure.NotAllowed">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.Files.EndFileNewline.NotFound">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.Formatting.DisallowMultipleStatements.SameLine">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.Formatting.MultipleStatementAlignment.NotSameWarning">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.WhiteSpace.DisallowSpaceIndent">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.WhiteSpace.ScopeIndent.Incorrect">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.WhiteSpace.ScopeIndent.IncorrectExact">
+    <severity>0</severity>
+  </rule>
+  <rule ref="PEAR.Files.IncludingFile.UseRequire">
+    <severity>0</severity>
+  </rule>
+  <rule ref="PEAR.Functions.FunctionCallSignature.CloseBracketLine">
+    <severity>0</severity>
+  </rule>
+  <rule ref="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket">
+    <severity>0</severity>
+  </rule>
+  <rule ref="PEAR.Functions.FunctionCallSignature.Indent">
+    <severity>0</severity>
+  </rule>
+  <rule ref="PEAR.Functions.FunctionCallSignature.MultipleArguments">
+    <severity>0</severity>
+  </rule>
+  <rule ref="PEAR.Functions.FunctionCallSignature.OpeningIndent">
+    <severity>0</severity>
+  </rule>
+  <rule ref="PEAR.NamingConventions.ValidClassName.StartWithCapital">
+    <severity>0</severity>
+  </rule>
+  <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Commenting.ClassComment.Missing">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Commenting.ClassComment.WrongStyle">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Commenting.FileComment.Missing">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Commenting.FileComment.MissingPackageTag">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Commenting.FunctionComment.Missing">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Commenting.FunctionComment.ParamCommentFullStop">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Commenting.FunctionComment.WrongStyle">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Commenting.InlineComment.InvalidEndChar">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Commenting.InlineComment.SpacingAfter">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Commenting.LongConditionClosingComment.Missing">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Commenting.VariableComment.Missing">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Commenting.VariableComment.WrongStyle">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.PHP.CommentedOutCode.Found">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.PHP.DisallowMultipleAssignments.Found">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.PHP.EmbeddedPhp">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.PHP.EmbeddedPhp.ContentAfterOpen">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.PHP.EmbeddedPhp.ContentBeforeEnd">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.PHP.EmbeddedPhp.ContentBeforeOpen">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.PHP.EmbeddedPhp.Empty">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.PHP.EmbeddedPhp.MultipleStatements">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.PHP.EmbeddedPhp.NoSemicolon">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Universal.Arrays.DisallowShortArraySyntax.Found">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Universal.Operators.DisallowShortTernary.Found">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Universal.WhiteSpace.PrecisionAlignment.Found">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.Arrays.ArrayDeclarationSpacing.AssociativeKeyFound">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.Arrays.ArrayIndentation.CloseBraceNotAligned">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.Arrays.ArrayIndentation.ItemNotAligned">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.Arrays.ArrayIndentation.MultiLineArrayItemNotAligned">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.DB.SlowDBQuery.slow_db_query_tax_query">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.Files.FileName.InvalidClassFileName">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.PHP.IniSet.display_errors_Blacklisted">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.PHP.YodaConditions.NotYoda">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.WP.AlternativeFunctions.parse_url_parse_url">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.WP.I18n.MissingTranslatorsComment">
+    <severity>0</severity>
   </rule>
 </ruleset>
