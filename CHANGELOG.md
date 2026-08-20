@@ -3,7 +3,7 @@
 * Stop referencing the same sniff under two names, Ref: DEV-1254
 * Set `PSR2.ControlStructures.SwitchDeclaration` indent to 2, Ref: DEV-1254
 * Drop `WordPress-Docs` from the base standard
-* Disable 59 judgement-based rules projects already excluded
+* Disable 76 judgement-based rules projects already excluded
 * Never disable security, database or compatibility rules
 * Add convergence test so contradicting rules fail CI
 

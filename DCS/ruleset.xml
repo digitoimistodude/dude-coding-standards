@@ -23,6 +23,7 @@
   <!-- PHPCS command line arguments -->
   <arg value="p"/>
   <arg value="s"/>
+  <arg value="v"/>
   <arg name="extensions" value="php"/>
 
   <!-- Exclude common folders -->
@@ -35,6 +36,8 @@
   <exclude-pattern>*/content/db.php</exclude-pattern>
   <exclude-pattern>scripts/Roots/*</exclude-pattern>
   <exclude-pattern>*/blocks/*.asset.php</exclude-pattern>
+  <exclude-pattern>*/blocks/*.js</exclude-pattern>
+  <exclude-pattern>*/blocks/*.css</exclude-pattern>
 
   <!--
     Base standards. WordPress-Docs is deliberately NOT included: it is the only
@@ -44,6 +47,35 @@
   <rule ref="WordPress-Extra"/>
   <rule ref="PHPCompatibilityWP"/>
   <config name="testVersion" value="8.3"/>
+  <config name="encoding" value="utf-8"/>
+  <config name="ignore_warnings_on_exit" value="1"/>
+  <config name="ignore_errors_on_exit" value="0"/>
+
+  <!-- Custom Dude sniffs -->
+  <rule ref="DCS.PHP.ForbiddenFunctions"/>
+
+  <!-- Kept from 1.0.8: real code smells, not matters of taste -->
+  <rule ref="Squiz.PHP.InnerFunctions"/>
+  <rule ref="Generic.Metrics.CyclomaticComplexity">
+    <properties>
+      <property name="complexity" value="10"/>
+      <property name="absoluteComplexity" value="12"/>
+    </properties>
+  </rule>
+  <rule ref="Generic.Metrics.NestingLevel">
+    <properties>
+      <property name="nestingLevel" value="3"/>
+      <property name="absoluteNestingLevel" value="4"/>
+    </properties>
+  </rule>
+
+  <!--
+    NoSemicolon stays a warning, as in 1.0.8: semicolons in embedded PHP are
+    good practice but the code works either way.
+  -->
+  <rule ref="Squiz.PHP.EmbeddedPhp.NoSemicolon">
+    <type>warning</type>
+  </rule>
 
   <!--
     Indentation: Dude uses 2 spaces, WordPress-Core assumes tabs.
@@ -260,6 +292,53 @@
     <severity>0</severity>
   </rule>
   <rule ref="WordPress.WP.I18n.MissingTranslatorsComment">
+    <severity>0</severity>
+  </rule>
+
+  <!-- Carried over from DCS 1.0.8: decisions Dude had already made -->
+  <rule ref="Generic.Commenting">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.Formatting.MultipleStatementAlignment">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Generic.WhiteSpace.ArbitraryParenthesesSpacing">
+    <severity>0</severity>
+  </rule>
+  <rule ref="PEAR.Functions.FunctionCallSignature">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Commenting">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Squiz.PHP.DiscouragedFunctions">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Universal.Arrays.DisallowShortArraySyntax">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Universal.Classes.RequireFinalClass">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Universal.Operators.DisallowShortTernary">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Universal.Operators.DisallowStandalonePostIncrementDecrement">
+    <severity>0</severity>
+  </rule>
+  <rule ref="Universal.WhiteSpace.PrecisionAlignment">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.Arrays.ArrayIndentation">
+    <severity>0</severity>
+  </rule>
+  <rule ref="WordPress.Arrays.MultipleStatementAlignment">
     <severity>0</severity>
   </rule>
 </ruleset>

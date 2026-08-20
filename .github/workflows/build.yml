@@ -31,5 +31,11 @@ jobs:
     - name: Rules must not contradict each other (DEV-1254)
       run: bash tests/convergence.sh
 
+    - name: Every referenced sniff must exist
+      run: bash tests/no-dead-refs.sh
+
+    - name: Security rules must stay enabled
+      run: bash tests/security-enabled.sh
+
     - name: Test PHP for syntax errors
       run: find -L . -name '*.php' -not -path "./vendor/*" -print0 | xargs -0 -n 1 -P 4 php -l
