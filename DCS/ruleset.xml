@@ -321,9 +321,12 @@
   <rule ref="Generic.WhiteSpace.ArbitraryParenthesesSpacing">
     <severity>0</severity>
   </rule>
-  <rule ref="PEAR.Functions.FunctionCallSignature">
-    <severity>0</severity>
-  </rule>
+  <!--
+    NOT disabled wholesale: the five multi-line sub-codes above are off, which
+    covers the alignment complaints, while SpaceAfterOpenBracket and
+    SpaceBeforeCloseBracket stay on to enforce WordPress call spacing,
+    get_template_part( 'x' ) rather than get_template_part('x' ).
+  -->
   <rule ref="Squiz.Commenting">
     <severity>0</severity>
   </rule>

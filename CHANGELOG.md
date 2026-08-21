@@ -1,3 +1,7 @@
+### 1.0.11: 2026-08-21
+
+* Enforce WordPress spacing in function calls again, Ref: DEV-1254
+
 ### 1.0.10: 2026-08-20
 
 * Keep slow meta_query exclusion from 1.0.8, Ref: DEV-1254
