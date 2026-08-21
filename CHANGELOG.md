@@ -1,3 +1,8 @@
+### 1.0.10: 2026-08-20
+
+* Keep slow meta_query exclusion from 1.0.8, Ref: DEV-1254
+* Downgrade global override rule to a warning in themes, Ref: DEV-1254
+
 ### 1.0.9: 2026-08-20
 
 * Stop referencing the same sniff under two names, Ref: DEV-1254

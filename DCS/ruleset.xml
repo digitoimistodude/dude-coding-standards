@@ -295,6 +295,22 @@
     <severity>0</severity>
   </rule>
 
+  <!--
+    Misfires in themes: template and block render files have global top-level
+    scope, so ordinary locals like $post_id or $post_type get flagged. Measured
+    7 false positives in 50 theme files. Kept visible as a warning rather than
+    silenced, so it reports without blocking a commit.
+  -->
+  <rule ref="WordPress.WP.GlobalVariablesOverride.Prohibited">
+    <type>warning</type>
+    <severity>8</severity>
+  </rule>
+
+  <!-- Performance heuristic, not correctness. Excluded in 1.0.8 too -->
+  <rule ref="WordPress.DB.SlowDBQuery.slow_db_query_meta_query">
+    <severity>0</severity>
+  </rule>
+
   <!-- Carried over from DCS 1.0.8: decisions Dude had already made -->
   <rule ref="Generic.Commenting">
     <severity>0</severity>
